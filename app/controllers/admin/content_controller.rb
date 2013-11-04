@@ -37,6 +37,15 @@ class Admin::ContentController < Admin::BaseController
     new_or_edit
   end
 
+  def merge
+    if params[:id] == params[:merge_with] or Article.find_by_id(params[:merge_with]).nil?
+      flash[:notice] = 'Cannot merge with same or nonexistent article'
+    else
+      Article.merge(params[:id], params[:merge_with])
+    end
+    redirect_to '/admin/content'
+  end
+
   def destroy
     @record = Article.find(params[:id])
 
